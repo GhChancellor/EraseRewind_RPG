@@ -6,62 +6,107 @@
 --- ISSkillProgressBar:updateTooltip(lvlSelected)
 
 require("media.lua.shared.DbgLeleLib")
+require("media.lua.shared.objects.CharacterTableX")
 
 local function onCustomUIKeyPressed(key)
-    character = getPlayer()
+    local character = getPlayer()
+
     key34(character, key)
-    --key35(character, key)
-    --key36(character, key)
+    key35(character, key)
+    key36(character, key)
 end
+
 -- Perks.Maintenance
 -- Perks.Woodwork
 -- Perks.Sprinting
 ---@param character IsoGameCharacter
 function key34(character, key)
     if key == 34 then -- <<<< g
-        print("Key = g\n")
-        -- character:setPerkLevelDebug(Perks.Maintenance, 2)
-        setPerkLevel(character, Perks.Maintenance, 5)
-        -- character:LevelPerk(Perks.Maintenance, true)
+        print("Key = g > writeBook \n")
+        -- writeBook(character)
+        -- writeKilledZombiesToHd(character)
+        writeLifeTimeToHd(character)
     end
 end
 
 ---@param character IsoGameCharacter
 function key35(character, key)
     if key == 35 then -- <<< h
-        print("Key = h\n")
-        -- removePerkLevel(character, Perks.Maintenance, 0)
-        --character:LoseLevel(Perks.Maintenance)
+        print("Key = h > readBook \n")
+        -- readBook(character)
+        readLifeTimeFromHd()
+        -- createLifeTime(character)
     end
 
 end
 
+---@param character IsoGameCharacter
 function key36(character, key)
     if key == 36 then -- <<<< j
-        print("Key = J\n")
+        print("Key = j > delete \n")
+        -- GameTime():setStartDay(1)
+        -- GameTime():setStartMonth(3)
 
+        getGameTime():setDay(1)
+        getGameTime():setMonth(0)
+
+        getGameTime():update(true)
+        getGameTime():save()
+
+        --getGameTime():getInstance():setDay(2)
+
+        --getGameTime():setDay(1)
+        --getGameTime():setMonth(1)
+        --
+        --getGameTime():getInstance():setHoursSurvived(15)
+        --getGameTime():setHoursSurvived(1.1)
+
+        --getGameTime():setMonth(0)
+        --GameTime():getInstance():setMonth(2)
+        --
+        --getGameTime():setTimeOfDay(1)
+
+        --GameTime():setHoursSurvived(15)
+
+        --GameTime:setMonth(2)
+        --GameTime:setYear(year)
+
+        -- setLifeTime(1, 2, nil)
+        --character:setZombieKills(15)
+       -- deleteCharacter(character)
     end
 end
 
 -- ------------------------------------------------------------
 
+local function lifeTime(character)
+    print(tostring(getGameTime():getDaysSurvived() ) .. " - " .. tostring(getGameTime():getHoursSurvived()))
+
+    print("-------------------------------------------------")
+    print(tostring(character:getHoursSurvived()/24))
+    print("-------------------------------------------------")
+
+
+
+    local lifeTimes = getGameTime():getTimeSurvived(character)
+
+    for s in lifeTimes:gmatch("[%d]+") do
+        print(s)
+    end
+end
+
+---@param character IsoGameCharacter
+local function killedZombies(character)
+    character:setZombieKills(15)
+    print("Killed zombies " .. character:getZombieKills() )
+end
+
+-- ------------------------------------------------------------
+
+
 local function OnGameStart()
 
 end
 
-local function AddXP(character, perk, level)
-
-end
-
---Events.AddXP.Add(AddXP)
---Events.OnGameStart.Add(OnGameStart)
+-- Events.OnGameStart.Add(OnGameStart)
 Events.OnCustomUIKeyPressed.Add(onCustomUIKeyPressed)
-
-
---[[
-    local character = getPlayer()
-    local convertLevelToXp_ = PerkFactory.getPerk(Perks.Woodwork):getXp1()
-    character:getXp():AddXP(perk, convertLevelToXp_)
-
-    print(convertLevelToXp_)
-]]
