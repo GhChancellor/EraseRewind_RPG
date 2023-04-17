@@ -5,71 +5,41 @@
 ---
 
 local nameModData = "characterLifeTime"
-local date_ = { day, month, year}
-
-local function addDate(day, month, year)
-    table.insert(date_, {
-        day = day,
-        month = month,
-        year = year
-    })
-end
 
 ---Read Life Time From Hd
 function readLifeTimeFromHd()
     local lines = {}
 
     lines = ModData.get(nameModData)
-
-    print("readLifeTimeFromHd()")
-    for i, v in pairs(lines) do
-        print(tostring(v.day) .. " " .. tostring(v.month))
-    end
-
     return lines[1]
 end
 
 ---Set Life Time
----@param day int
----@param month int
----@param year int ( disabilited )
-function setLifeTime(day, month, year)
-
-    GameTime():setStartMonth(3)
-
-    --GameTime():setDay(1)
-    --GameTime():setMonth(2)
-    -- GameTime():setYear(year)
+---@param lifeTime double
+function setLifeTime(lifeTime)
+    IsoPlayer.getInstance():setHoursSurvived(lifeTime)
 end
 
 ---Get Life Time
----@param character IsoGameCharacter
-function getLifeTime(character)
-    return getGameTime():getTimeSurvived(character)
+---@return double
+function getLifeTime()
+    return IsoPlayer.getInstance():getHoursSurvived()
 end
 
 ---Create Life Time
----@param character IsoGameCharacter
-function createLifeTime(character)
+function createLifeTime()
     local lifeTime = readLifeTimeFromHd()
-    setLifeTime(character, lifeTime)
+    setLifeTime(lifeTime)
 end
 
 ---Write Life Time To Hd
----@param character IsoGameCharacter
-function writeLifeTimeToHd(character)
+function writeLifeTimeToHd()
     ModData.remove(nameModData)
 
-    local lifeTime = getLifeTime(character)
+    local lifeTime = getLifeTime()
 
     local lines = {}
-    for s in lifeTime:gmatch("[%d]+") do
-        table.insert(lines, s)
-    end
+    table.insert(lines, lifeTime)
 
-    for _, v in pairs(lines) do
-        addDate(lines[1] , lines[2], nil)
-    end
-
-    ModData.add(nameModData, date_)
+    ModData.add(nameModData, lines)
 end

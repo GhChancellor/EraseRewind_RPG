@@ -33,9 +33,7 @@ end
 function key35(character, key)
     if key == 35 then -- <<< h
         print("Key = h > readBook \n")
-        -- readBook(character)
-        readLifeTimeFromHd()
-        -- createLifeTime(character)
+        createLifeTime()
     end
 
 end
@@ -44,36 +42,7 @@ end
 function key36(character, key)
     if key == 36 then -- <<<< j
         print("Key = j > delete \n")
-        -- GameTime():setStartDay(1)
-        -- GameTime():setStartMonth(3)
 
-        getGameTime():setDay(1)
-        getGameTime():setMonth(0)
-
-        getGameTime():update(true)
-        getGameTime():save()
-
-        --getGameTime():getInstance():setDay(2)
-
-        --getGameTime():setDay(1)
-        --getGameTime():setMonth(1)
-        --
-        --getGameTime():getInstance():setHoursSurvived(15)
-        --getGameTime():setHoursSurvived(1.1)
-
-        --getGameTime():setMonth(0)
-        --GameTime():getInstance():setMonth(2)
-        --
-        --getGameTime():setTimeOfDay(1)
-
-        --GameTime():setHoursSurvived(15)
-
-        --GameTime:setMonth(2)
-        --GameTime:setYear(year)
-
-        -- setLifeTime(1, 2, nil)
-        --character:setZombieKills(15)
-       -- deleteCharacter(character)
     end
 end
 
