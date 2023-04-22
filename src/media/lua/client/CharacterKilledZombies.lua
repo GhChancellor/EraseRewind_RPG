@@ -3,7 +3,7 @@
 --- Created by lele.
 --- DateTime: 15/04/23 18:54
 ---
-equire("media.lua.client.EnumModData")
+require("media.lua.client.EnumModData")
 
 ---Read Zombies Killed From Hd
 ---@return int
@@ -13,11 +13,6 @@ local function readZombieKillsFromHd(character)
     readSingleValueIntoModData( EnumModData.ZOMBIE_KILLS)
 
     setZombieKills_PZ(character, zombieKills)
-
-    --local lines = {}
-    --
-    --lines = ModData.get(EnumModData.ZOMBIEKILLS )
-    --return lines[1]
 end
 
 ---Create Zombies Kills
@@ -25,9 +20,6 @@ end
 --- - zombie.characters.IsoGameCharacter
 function createZombieKills(character)
     readZombieKillsFromHd(character)
-
-    --local zombieKills = readZombieKillsFromHd()
-    --setZombieKills_PZ(character, zombieKills)
 end
 
 ---Write Zombies Kills To Hd
@@ -36,13 +28,4 @@ end
 function writeZombieKillsToHd(character)
     insertSingleValueIntoModData(EnumModData.ZOMBIE_KILLS,
             getZombieKills_PZ(character) )
-
-    --ModData.remove(EnumModData.ZOMBIEKILLS)
-    --
-    --local zombieKills = getZombieKills_PZ(character)
-    --
-    --local lines = {}
-    --table.insert(lines, zombieKills)
-    --
-    --ModData.add(EnumModData.ZOMBIEKILLS, lines)
 end

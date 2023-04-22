@@ -23,9 +23,7 @@ end
 function key34(character, key)
     if key == 34 then -- <<<< g
         print("Key = g > writeBook \n")
-        -- writeBook(character)
-        -- writeKilledZombiesToHd(character)
-        writeLifeTimeToHd(character)
+        writeCharacterNutrition()
     end
 end
 
@@ -33,7 +31,7 @@ end
 function key35(character, key)
     if key == 35 then -- <<< h
         print("Key = h > readBook \n")
-        createLifeTime()
+        createCharacterNutrition()
     end
 
 end
@@ -42,6 +40,7 @@ end
 function key36(character, key)
     if key == 36 then -- <<<< j
         print("Key = j > delete \n")
+        --removeMoData()
 
     end
 end

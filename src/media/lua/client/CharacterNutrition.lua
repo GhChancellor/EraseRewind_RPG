@@ -8,14 +8,24 @@ require("media.lua.client.EnumModData")
 
 ---Read Weight From Hd
 local function readWeightFromHd()
-    local weight = readSingleValueIntoModData( getWeight_PZ())
+    local weight = readSingleValueIntoModData( EnumModData.WEIGHT )
     setWeight_PZ(weight)
 end
 
 ---Read Calories From Hd
 local function readCaloriesFromHd()
-    local calories = readSingleValueIntoModData( getCalories_PZ())
+    local calories = readSingleValueIntoModData( EnumModData.CALORIES )
     setCalories_PZ(calories)
+end
+
+---Write Weight From Hd
+local function writeWeightFromHd()
+    insertSingleValueIntoModData(EnumModData.WEIGHT, getWeight_PZ())
+end
+
+---Write Calories From Hd
+local function writeCaloriesFromHd()
+    insertSingleValueIntoModData(EnumModData.CALORIES, getCalories_PZ())
 end
 
 ---Create Character Nutrition
@@ -24,12 +34,9 @@ function createCharacterNutrition()
     readCaloriesFromHd()
 end
 
----Write Weight From Hd
-function writeWeightFromHd()
-    insertSingleValueIntoModData(EnumModData.WEIGHT, getWeight_PZ())
+---Wwrite Character Nutrition
+function writeCharacterNutrition()
+    writeWeightFromHd()
+    writeCaloriesFromHd()
 end
 
----Write Calories From Hd
-function writeCaloriesFromHd()
-    insertSingleValueIntoModData(EnumModData.CALORIES, getCalories_PZ())
-end

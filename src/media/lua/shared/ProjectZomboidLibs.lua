@@ -115,6 +115,8 @@ function getCharacterAllSkills(character)
     return characterTableX_getPerkDetails()
 end
 
+--- -------------------------------------------------
+
 --- Get Perk
 ---@param perk PerkFactory
 ---@return PerkFactory.Perk perk
@@ -422,7 +424,7 @@ end
 function readSingleValueIntoModData(modData)
     local lines = {}
 
-    lines = ModData.get(modData )
+    lines = ModData.get(modData)
     return lines[1]
 end
 

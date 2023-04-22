@@ -13,6 +13,10 @@ local function readCharacterPerkDetailsFromHd()
     local characterPerkDetails =
     ModData.get(EnumModData.CHARACTER_PERK_DETAILS )
 
+    --if not characterPerkDetails then
+    --    return nil
+    --end
+
     local lines = {}
     characterTableX_DestroyTable()
 
@@ -46,13 +50,13 @@ local function deleteCharacter(character)
         removePerkLevel(character, v.perk)
     end
 
-    setCharacterProfession_PZ("")
+    setCharacterProfession_PZ(character, "")
 end
 
 ---Copy Character Skill
 ---@param character IsoGameCharacter
 --- - IsoGameCharacter : zombie.characters.IsoGameCharacter
-function createCharacterSkill(character)
+function createCharacterPerkDetails(character)
     local characterSkills = {}
     characterSkills = readCharacterPerkDetailsFromHd()
 
@@ -61,7 +65,7 @@ function createCharacterSkill(character)
     for _, v in pairs(characterSkills) do
         setPerkLevel(character, v.perk, v.xp)
     end
-    setCharacterProfession_PZ(EnumModData.PROFESSION)
+    setCharacterProfession_PZ(character, EnumModData.PROFESSION)
 end
 
 ---Write Character Perk Details To Hd
