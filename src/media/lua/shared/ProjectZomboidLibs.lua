@@ -14,6 +14,7 @@ local professionsTable_ = { perk, level }
 ---Add character Trait Table
 ---@param perk PerkFactory.Perk
 ---@param level int
+--- - PerkFactory.Perk : zombie.characters.skills.PerkFactory
 local function characterTraitTable(perk, level)
     table.insert(characterTraitsTable_,{
         perk = perk,
@@ -24,6 +25,7 @@ end
 ---Add professions Table
 ---@param perk PerkFactory.Perk
 ---@param level int
+--- - PerkFactory.Perk : zombie.characters.skills.PerkFactory
 local function professionsTable(perk, level)
     table.insert(professionsTable_,{
         perk = perk,
@@ -33,6 +35,7 @@ end
 
 ---Get Character Traits
 ---@return table perk, level
+--- - PerkFactory.Perk : zombie.characters.skills.PerkFactory
 function getCharacterTraits(character)
     characterTraitsTable_ = { perk, level }
 
@@ -52,6 +55,7 @@ end
 
 ---Get Character Profession
 ---@return table perk, level
+--- - PerkFactory.Perk : zombie.characters.skills.PerkFactory
 function getCharacterProfession(character)
     professionsTable_ = { perk, level }
 
@@ -114,7 +118,7 @@ end
 --- Get Perk
 ---@param perk PerkFactory
 ---@return PerkFactory.Perk perk
---- - zombie.characters.skills.PerkFactory
+--- - PerkFactory.Perk : zombie.characters.skills.PerkFactory
 function getPerk_PZ(perk)
     return PerkFactory.getPerk(perk)
 end
@@ -122,7 +126,7 @@ end
 --- Get Perk from name
 ---@param perk string
 ---@return PerkFactory.Perk perk
---- - zombie.characters.skills.PerkFactory
+--- - PerkFactory.Perk : zombie.characters.skills.PerkFactory
 function getPerkFromName_PZ(perk)
     return PerkFactory.getPerkFromName(perk)
 end
@@ -134,6 +138,8 @@ end
 ---@param flag1 boolean default false
 ---@param flag2 boolean default false
 ---@param flag3 boolean default true
+--- - IsoGameCharacter : zombie.characters.IsoGameCharacter
+--- - PerkFactory.Perk : zombie.characters.skills.PerkFactory
 function addXP_PZ(character, perk, xp, flag1, flag2, flag3)
     if not character or not perk then
         return nil
@@ -157,6 +163,7 @@ end
 ---@param perk PerkFactory.Perk
 ---@return int
 --- - IsoGameCharacter : zombie.characters.IsoGameCharacter
+--- - PerkFactory.Perk : zombie.characters.skills.PerkFactory
 function getPerkLevel_PZ(character, perk)
     if not character then
         return nil
@@ -169,6 +176,7 @@ end
 ---@param character IsoGameCharacter
 ---@return TraitCollection
 --- - IsoGameCharacter : zombie.characters.IsoGameCharacter
+--- - TraitCollection : zombie.characters.traits.TraitCollection
 function getTraits_PZ(character)
     if not character then
         return nil
@@ -181,6 +189,7 @@ end
 ---@param character IsoGameCharacter
 ---@return IsoGameCharacter.CharacterTraits
 --- - IsoGameCharacter : zombie.characters.IsoGameCharacter
+--- - IsoGameCharacter.CharacterTraits : zombie.characters.IsoGameCharacter.CharacterTraits
 function getCharacterTraits_PZ(character)
     if not character then
         return nil
@@ -189,9 +198,24 @@ function getCharacterTraits_PZ(character)
     return character:getCharacterTraits()
 end
 
+
 --- Get Charater profession
 ---@param character IsoGameCharacter
+---@param profession String
+--- - IsoGameCharacter : zombie.characters.IsoGameCharacter
+--- - SurvivorDesc : zombie.characters.SurvivorDesc
+function setCharacterProfession_PZ(character, profession)
+    if not character then
+        return nil
+    end
+
+    character:getDescriptor():setProfession(profession)
+end
+
+--- Get Character profession
+---@param character IsoGameCharacter
 ---@return String
+--- - IsoGameCharacter : zombie.characters.IsoGameCharacter
 --- - SurvivorDesc : zombie.characters.SurvivorDesc
 function getCharacterProfession_PZ(character)
     if not character then
@@ -205,6 +229,8 @@ end
 ---@param character IsoGameCharacter
 ---@param perk PerkFactory.Perk
 ---@return float xp
+--- - IsoGameCharacter : zombie.characters.IsoGameCharacter
+--- - PerkFactory.Perk : zombie.characters.skills.PerkFactory
 --- - IsoGameCharacter.XP : zombie.characters.IsoGameCharacter.XP
 function getXpPerk_PZ(character, perk)
     return trunkFloatTo2Decimal( character:getXp():getXP(perk) ) -- Perks.Maintenance
@@ -228,6 +254,7 @@ EnumNumbers = {
 ---@param level int
 ---@param perk PerkFactory.Perk
 ---@return float Xp
+--- - PerkFactory.Perk : zombie.characters.skills.PerkFactory
 function convertLevelToXp(perk, level)
     -- Perks.Sprinting:getXp1()
     local result
@@ -265,6 +292,8 @@ end
 ---@param character IsoGameCharacter
 ---@param perk PerkFactory.Perk
 ---@param xp float
+--- - IsoGameCharacter : zombie.characters.IsoGameCharacter
+--- - PerkFactory.Perk : zombie.characters.skills.PerkFactory
 --- - IsoGameCharacter.XP : zombie.characters.IsoGameCharacter.XP
 function setPerkLevel(character, perk, xp)
     if not character or not perk then
@@ -284,6 +313,8 @@ end
 ---@param character IsoGameCharacter
 ---@param perk PerkFactory.Perk
 --- ISPlayerStatsUI.lua 635
+--- - IsoGameCharacter : zombie.characters.IsoGameCharact
+--- - PerkFactory.Perk : zombie.characters.skills.PerkFactory
 --- - IsoGameCharacter.XP : zombie.characters.IsoGameCharacter.XP
 function removePerkLevel(character, perk)
     if not character or not perk then
@@ -292,7 +323,7 @@ function removePerkLevel(character, perk)
 
     local currentLevelPerk = getPerkLevel_PZ(character, perk)
 
-    for i = 0, currentLevelPerk  do
+    for _ = 0, currentLevelPerk  do
         character:LoseLevel(perk)
     end
 
@@ -311,21 +342,89 @@ end
 ---Get Parent_PZ
 ---@param perk PerkFactory.Perk
 ---@return PerkFactory.Perk
+--- - PerkFactory.Perk : zombie.characters.skills.PerkFactory
 function getParent_PZ(perk)
     return perk:getParent():getName()
 end
 
+---Set Zombies Killed
+---@param character IsoGameCharacter
+---@param killZombies int
+--- - IsoGameCharacter : zombie.characters.IsoGameCharacter
+function setZombieKills_PZ(character, killZombies)
+    character:setZombieKills(killZombies)
+end
+
+---Get Zombies Killed
+---@param character IsoGameCharacter
+---return int
+--- - IsoGameCharacter : zombie.characters.IsoGameCharacter
+function getZombieKills_PZ(character)
+    return character:getZombieKills()
+end
+
+---Set Life Time
+---@param lifeTime double
+--- - IsoPlayer : zombie.characters.IsoPlayer
+function setHoursSurvived_PZ(lifeTime)
+    IsoPlayer.getInstance():setHoursSurvived(lifeTime)
+end
+
+---Get Life Time
+---@return double
+--- - IsoPlayer : zombie.characters.IsoPlayer
+function getHoursSurvived_PZ()
+    return IsoPlayer.getInstance():getHoursSurvived()
+end
+
+---Set Weight
+---@param value double
+--- - IsoPlayer : zombie.characters.BodyDamage.Nutrition
+function setWeight_PZ(value)
+    IsoPlayer.getInstance():getNutrition():setWeight(value)
+end
+
+---Get Weight
+---@return double Weight
+--- - IsoPlayer : zombie.characters.BodyDamage.Nutrition
+function getWeight_PZ()
+    return IsoPlayer.getInstance():getNutrition():getWeight()
+end
+
+---Set Calories
+---@param value float
+--- - IsoPlayer : zombie.characters.BodyDamage.Nutrition
+function setCalories_PZ(value)
+    IsoPlayer.getInstance():getNutrition():setCalories(value)
+end
+
+---Get Calories
+---@return float Calories
+--- - IsoPlayer : zombie.characters.BodyDamage.Nutrition
+function getCalories_PZ()
+    return IsoPlayer.getInstance():getNutrition():getCalories()
+end
+
+---Insert Single Value Into Mod Data
+---@param EnumModData
+---@param value
+function insertSingleValueIntoModData(modData, value)
+    ModData.remove(modData)
+
+    local lines = {}
+    table.insert(lines, value)
+
+    ModData.add(modData, lines)
+end
+
+---Read Single Value Into Mod Data
+---@param EnumModData
+function readSingleValueIntoModData(modData)
+    local lines = {}
+
+    lines = ModData.get(modData )
+    return lines[1]
+end
+
 --- --------------------------------------------------------------------------------------------------------------
 
--- TODO setCharacterProfession_PZ
---- Get Charater profession
----@param character IsoGameCharacter
----@param profession String
---- - SurvivorDesc : zombie.characters.SurvivorDesc
-function setCharacterProfession_PZ(character, profession)
-    --if not character then
-    --    return nil
-    --end
-    --
-    --character:getDescriptor().setProfession(profession)
-end

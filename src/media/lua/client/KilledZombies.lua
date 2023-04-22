@@ -3,46 +3,46 @@
 --- Created by lele.
 --- DateTime: 15/04/23 18:54
 ---
+equire("media.lua.client.EnumModData")
 
-local nameModData = "killedZombies"
-
----Read Killed Zombies From Hd
+---Read Zombies Killed From Hd
 ---@return int
-local function readKilledZombiesFromHd()
-    local lines = {}
+local function readZombieKillsFromHd(character)
 
-    lines = ModData.get(nameModData)
-    return lines[1]
+    local zombieKills =
+    readSingleValueIntoModData( EnumModData.ZOMBIE_KILLS)
+
+    setZombieKills_PZ(character, zombieKills)
+
+    --local lines = {}
+    --
+    --lines = ModData.get(EnumModData.ZOMBIEKILLS )
+    --return lines[1]
 end
 
----Set Killed Zombies
+---Create Zombies Kills
 ---@param character IsoGameCharacter
----@param killedZombies int
-local function setKilledZombies(character, killedZombies)
-    character:setZombieKills(killedZombies)
+--- - zombie.characters.IsoGameCharacter
+function createZombieKills(character)
+    readZombieKillsFromHd(character)
+
+    --local zombieKills = readZombieKillsFromHd()
+    --setZombieKills_PZ(character, zombieKills)
 end
 
----Get Killed Zombies
+---Write Zombies Kills To Hd
 ---@param character IsoGameCharacter
----return int
-local function getKilledZombies(character)
-    return character:getZombieKills()
-end
+--- - zombie.characters.IsoGameCharacter
+function writeZombieKillsToHd(character)
+    insertSingleValueIntoModData(EnumModData.ZOMBIE_KILLS,
+            getZombieKills_PZ(character) )
 
-function createKilledZombies(character)
-    local killedZombies = readKilledZombiesFromHd()
-    setKilledZombies(character, killedZombies)
-end
-
----Write Killed Zombies To Hd
----@param character IsoGameCharacter
-function writeKilledZombiesToHd(character)
-    ModData.remove(nameModData)
-
-    local killedZombies = getKilledZombies(character)
-
-    local lines = {}
-    table.insert(lines, killedZombies)
-
-    ModData.add(nameModData, lines)
+    --ModData.remove(EnumModData.ZOMBIEKILLS)
+    --
+    --local zombieKills = getZombieKills_PZ(character)
+    --
+    --local lines = {}
+    --table.insert(lines, zombieKills)
+    --
+    --ModData.add(EnumModData.ZOMBIEKILLS, lines)
 end

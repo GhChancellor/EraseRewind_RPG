@@ -4,14 +4,14 @@
 --- DateTime: 15/04/23 13:52
 ---
 
-local nameModData = "characterPerkDetails"
+require("media.lua.client.EnumModData")
 
 ---Read Character Perk Details From Hd
 ---@return table string profession, PerkFactory.Perk perk, int level, float xp, boolean flag
 local function readCharacterPerkDetailsFromHd()
 
     local characterPerkDetails =
-    ModData.get(nameModData)
+    ModData.get(EnumModData.CHARACTER_PERK_DETAILS )
 
     local lines = {}
     characterTableX_DestroyTable()
@@ -30,11 +30,14 @@ local function readCharacterPerkDetailsFromHd()
         lines = {}
     end
 
+    -- andrebbe inserito nel oggetto ( se ci fosse )
+    -- lines[1] = ModData.get(EnumModData.PROFESSION )
     return characterTableX_getPerkDetails()
 end
 
 ---Delete  all skills Character
 ---@param character IsoGameCharacter
+--- - IsoGameCharacter : zombie.characters.IsoGameCharacter
 local function deleteCharacter(character)
     local characterAllSkills = {}
     characterAllSkills = getCharacterAllSkills(character)
@@ -42,10 +45,13 @@ local function deleteCharacter(character)
     for _, v in pairs(characterAllSkills) do
         removePerkLevel(character, v.perk)
     end
+
+    setCharacterProfession_PZ("")
 end
 
 ---Copy Character Skill
 ---@param character IsoGameCharacter
+--- - IsoGameCharacter : zombie.characters.IsoGameCharacter
 function createCharacterSkill(character)
     local characterSkills = {}
     characterSkills = readCharacterPerkDetailsFromHd()
@@ -55,12 +61,14 @@ function createCharacterSkill(character)
     for _, v in pairs(characterSkills) do
         setPerkLevel(character, v.perk, v.xp)
     end
+    setCharacterProfession_PZ(EnumModData.PROFESSION)
 end
 
 ---Write Character Perk Details To Hd
 ---@param character IsoGameCharacter
+--- - IsoGameCharacter : zombie.characters.IsoGameCharacter
 function writeCharacterPerkDetailsToHd(character)
-    ModData.remove(nameModData)
+    ModData.remove(EnumModData.CHARACTER_PERK_DETAILS )
 
     local lines = {}
 
@@ -72,8 +80,14 @@ function writeCharacterPerkDetailsToHd(character)
                 tostring(v.level)  .. "-" ..
                 tostring(v.xp) )
 
-        ModData.add(nameModData, lines)
+        ModData.add(EnumModData.CHARACTER_PERK_DETAILS, lines)
     end
+
+
+    lines = {}
+    table.insert(lines, EnumModData.PROFESSION )
+
+    ModData.add(EnumModData.PROFESSION, lines)
 end
 
 

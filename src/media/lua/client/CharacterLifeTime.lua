@@ -4,42 +4,30 @@
 --- DateTime: 01/04/23 21:20
 ---
 
-local nameModData = "characterLifeTime"
+require("media.lua.client.EnumModData")
 
 ---Read Life Time From Hd
-function readLifeTimeFromHd()
+local function readLifeTimeFromHd()
     local lines = {}
 
-    lines = ModData.get(nameModData)
+    lines = ModData.get( EnumModData.CHARACTER_LIFE_TIME )
     return lines[1]
-end
-
----Set Life Time
----@param lifeTime double
-function setLifeTime(lifeTime)
-    IsoPlayer.getInstance():setHoursSurvived(lifeTime)
-end
-
----Get Life Time
----@return double
-function getLifeTime()
-    return IsoPlayer.getInstance():getHoursSurvived()
 end
 
 ---Create Life Time
 function createLifeTime()
     local lifeTime = readLifeTimeFromHd()
-    setLifeTime(lifeTime)
+    setHoursSurvived_PZ(lifeTime)
 end
 
 ---Write Life Time To Hd
 function writeLifeTimeToHd()
-    ModData.remove(nameModData)
+    ModData.remove(EnumModData.CHARACTER_LIFE_TIME)
 
-    local lifeTime = getLifeTime()
+    local lifeTime = getHoursSurvived_PZ()
 
     local lines = {}
     table.insert(lines, lifeTime)
 
-    ModData.add(nameModData, lines)
+    ModData.add(EnumModData.CHARACTER_LIFE_TIME, lines)
 end
