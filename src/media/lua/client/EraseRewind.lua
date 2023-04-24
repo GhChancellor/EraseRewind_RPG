@@ -39,6 +39,8 @@ end
 function key36(character, key)
     if key == 36 then -- <<<< j
         print("Key = j > delete \n")
+        removeMoData()
+        setZombieKills_PZ(character, 15)
     end
 end
 

@@ -14,6 +14,10 @@ end
 
 ---Create Life Time
 function createLifeTime()
+    if not isExist(EnumModData.CHARACTER_LIFE_TIME) then
+        return nil
+    end
+
     ---@type double
     local lifeTime = readLifeTimeFromHd()
     setHoursSurvived_PZ(lifeTime)

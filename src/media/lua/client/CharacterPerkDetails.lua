@@ -57,6 +57,10 @@ end
 ---@param character IsoGameCharacter
 --- - IsoGameCharacter : zombie.characters.IsoGameCharacter
 function createCharacterPerkDetails(character)
+    if not isExist(EnumModData.CHARACTER_PROFESSION) then
+        return nil
+    end
+
     local characterSkills = {}
     characterSkills = readCharacterPerkDetailsFromHd()
 

@@ -26,8 +26,16 @@ end
 
 ---Create Character Nutrition
 function createCharacterNutrition()
+    if not isExist(EnumModData.CHARACTER_WEIGHT) then
+        return nil
+    end
+
     local weight = readWeightFromHd()
     setWeight_PZ(weight)
+
+    if not isExist(EnumModData.CHARACTER_CALORIES) then
+        return nil
+    end
 
     local calories = readCaloriesFromHd()
     setCalories_PZ(calories)

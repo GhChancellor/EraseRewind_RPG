@@ -15,6 +15,10 @@ end
 ---@param character IsoGameCharacter
 --- - zombie.characters.IsoGameCharacter
 function createZombieKills(character)
+    if not isExist(EnumModData.CHARACTER_ZOMBIE_KILLS) then
+        return nil
+    end
+
     local zombieKills = readZombieKillsFromHd(character)
     setZombieKills_PZ(character, zombieKills)
 end

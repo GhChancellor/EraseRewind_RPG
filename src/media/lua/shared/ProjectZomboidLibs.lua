@@ -504,6 +504,10 @@ function insertMultipleValueIntoModData(modData, values)
     end
 end
 
+function isExist(modData)
+    return ModData.exists(modData)
+end
+
 ---@param character IsoGameCharacter
 ---@return ArrayList
 --- - IsoGameCharacter : zombie.characters.IsoGameCharacter

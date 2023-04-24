@@ -18,6 +18,10 @@ end
 ---@param character IsoGameCharacter
 --- - zombie.characters.IsoGameCharacter
 function createTrait(character)
+    if not isExist(EnumModData.CHARACTER_TRAIT) then
+        return nil
+    end
+
     local trait = {}
     trait = readTraitFromHd(character)
 
