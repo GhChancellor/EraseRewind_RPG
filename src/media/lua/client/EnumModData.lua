@@ -8,9 +8,11 @@
 
 EnumModData = {
     CHARACTER_PERK_DETAILS = "characterPerkDetails",
+    CHARACTER_TRAIT = "characterTrait",
     CHARACTER_LIFE_TIME = "characterLifeTime",
-    PROFESSION = "characterProfession",
-    ZOMBIE_KILLS = "characterZombieKills",
-    WEIGHT = "characterWeight",
-    CALORIES = "characterCalories"
+    CHARACTER_PROFESSION = "characterProfession",
+    CHARACTER_ZOMBIE_KILLS = "characterZombieKills",
+    CHARACTER_WEIGHT = "characterWeight",
+    CHARACTER_CALORIES = "characterCalories",
+    CHARACTER_RECIPE = "characterRecipe"
 }

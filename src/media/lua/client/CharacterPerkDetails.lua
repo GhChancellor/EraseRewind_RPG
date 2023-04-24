@@ -65,7 +65,7 @@ function createCharacterPerkDetails(character)
     for _, v in pairs(characterSkills) do
         setPerkLevel(character, v.perk, v.xp)
     end
-    setCharacterProfession_PZ(character, EnumModData.PROFESSION)
+    setCharacterProfession_PZ(character, EnumModData.CHARACTER_PROFESSION)
 end
 
 ---Write Character Perk Details To Hd
@@ -89,9 +89,9 @@ function writeCharacterPerkDetailsToHd(character)
 
 
     lines = {}
-    table.insert(lines, EnumModData.PROFESSION )
+    table.insert(lines, EnumModData.CHARACTER_PROFESSION)
 
-    ModData.add(EnumModData.PROFESSION, lines)
+    ModData.add(EnumModData.CHARACTER_PROFESSION, lines)
 end
 
 

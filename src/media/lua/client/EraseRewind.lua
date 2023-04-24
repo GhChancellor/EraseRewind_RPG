@@ -6,7 +6,6 @@
 --- ISSkillProgressBar:updateTooltip(lvlSelected)
 
 require("media.lua.shared.DbgLeleLib")
-require("media.lua.shared.objects.CharacterTableX")
 
 local function onCustomUIKeyPressed(key)
     local character = getPlayer()
@@ -19,58 +18,33 @@ end
 -- Perks.Maintenance
 -- Perks.Woodwork
 -- Perks.Sprinting
+-- Todo 		self.character:playSound("CloseBook")
 ---@param character IsoGameCharacter
 function key34(character, key)
     if key == 34 then -- <<<< g
-        print("Key = g > writeBook \n")
-        writeCharacterNutrition()
+        print("Key = g > get profession \n")
+        writeBook(character)
     end
 end
 
 ---@param character IsoGameCharacter
 function key35(character, key)
     if key == 35 then -- <<< h
-        print("Key = h > readBook \n")
-        createCharacterNutrition()
+        print("Key = h > set profession \n")
+        readBook(character)
     end
-
 end
 
 ---@param character IsoGameCharacter
 function key36(character, key)
     if key == 36 then -- <<<< j
         print("Key = j > delete \n")
-        --removeMoData()
-
     end
 end
 
 -- ------------------------------------------------------------
 
-local function lifeTime(character)
-    print(tostring(getGameTime():getDaysSurvived() ) .. " - " .. tostring(getGameTime():getHoursSurvived()))
-
-    print("-------------------------------------------------")
-    print(tostring(character:getHoursSurvived()/24))
-    print("-------------------------------------------------")
-
-
-
-    local lifeTimes = getGameTime():getTimeSurvived(character)
-
-    for s in lifeTimes:gmatch("[%d]+") do
-        print(s)
-    end
-end
-
----@param character IsoGameCharacter
-local function killedZombies(character)
-    character:setZombieKills(15)
-    print("Killed zombies " .. character:getZombieKills() )
-end
-
 -- ------------------------------------------------------------
-
 
 local function OnGameStart()
 

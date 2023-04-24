@@ -7,27 +7,19 @@
 require("media.lua.client.EnumModData")
 
 ---Read Life Time From Hd
+---@return double
 local function readLifeTimeFromHd()
-    local lines = {}
-
-    lines = ModData.get( EnumModData.CHARACTER_LIFE_TIME )
-    return lines[1]
+    return readSingleValueIntoModData(EnumModData.CHARACTER_LIFE_TIME)
 end
 
 ---Create Life Time
 function createLifeTime()
+    ---@type double
     local lifeTime = readLifeTimeFromHd()
     setHoursSurvived_PZ(lifeTime)
 end
 
 ---Write Life Time To Hd
 function writeLifeTimeToHd()
-    ModData.remove(EnumModData.CHARACTER_LIFE_TIME)
-
-    local lifeTime = getHoursSurvived_PZ()
-
-    local lines = {}
-    table.insert(lines, lifeTime)
-
-    ModData.add(EnumModData.CHARACTER_LIFE_TIME, lines)
+    insertSingleValueIntoModData(EnumModData.CHARACTER_LIFE_TIME, getHoursSurvived_PZ())
 end

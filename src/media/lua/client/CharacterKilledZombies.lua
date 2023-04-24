@@ -8,24 +8,21 @@ require("media.lua.client.EnumModData")
 ---Read Zombies Killed From Hd
 ---@return int
 local function readZombieKillsFromHd(character)
-
-    local zombieKills =
-    readSingleValueIntoModData( EnumModData.ZOMBIE_KILLS)
-
-    setZombieKills_PZ(character, zombieKills)
+    return readSingleValueIntoModData( EnumModData.CHARACTER_ZOMBIE_KILLS)
 end
 
 ---Create Zombies Kills
 ---@param character IsoGameCharacter
 --- - zombie.characters.IsoGameCharacter
 function createZombieKills(character)
-    readZombieKillsFromHd(character)
+    local zombieKills = readZombieKillsFromHd(character)
+    setZombieKills_PZ(character, zombieKills)
 end
 
 ---Write Zombies Kills To Hd
 ---@param character IsoGameCharacter
 --- - zombie.characters.IsoGameCharacter
 function writeZombieKillsToHd(character)
-    insertSingleValueIntoModData(EnumModData.ZOMBIE_KILLS,
+    insertSingleValueIntoModData(EnumModData.CHARACTER_ZOMBIE_KILLS,
             getZombieKills_PZ(character) )
 end

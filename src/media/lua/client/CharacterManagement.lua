@@ -5,22 +5,24 @@
 ---
 
 function removeMoData()
-    ModData.remove(EnumModData.ZOMBIE_KILLS)
+    ModData.remove(EnumModData.CHARACTER_ZOMBIE_KILLS)
     ModData.remove(EnumModData.CHARACTER_LIFE_TIME)
     ModData.remove(EnumModData.CHARACTER_PERK_DETAILS)
-    ModData.remove(EnumModData.PROFESSION)
-    ModData.remove(EnumModData.CALORIES)
-    ModData.remove(EnumModData.WEIGHT)
+    ModData.remove(EnumModData.CHARACTER_PROFESSION)
+    ModData.remove(EnumModData.CHARACTER_CALORIES)
+    ModData.remove(EnumModData.CHARACTER_WEIGHT)
 end
 
 ---Read Book
 ---@param character IsoGameCharacter
 --- - IsoGameCharacter : zombie.characters.IsoGameCharacter
 function readBook(character)
-    createCharacterPerkDetails(character) -- ok
-    createZombieKills(character) -- ok
-    createLifeTime() -- ok
-    createCharacterNutrition() -- ok
+    createCharacterPerkDetails(character)
+    createZombieKills(character)
+    createLifeTime()
+    createCharacterNutrition()
+    createTrait(character)
+    -- createRecipe(character)
     -- removeMoData()
 end
 
@@ -28,9 +30,11 @@ end
 ---@param character IsoGameCharacter
 --- - IsoGameCharacter : zombie.characters.IsoGameCharacter
 function writeBook(character)
-    writeCharacterPerkDetailsToHd(character) -- ok
-    writeZombieKillsToHd(character) -- ok
-    writeLifeTimeToHd() -- ok
-    writeCharacterNutrition() -- ok
+    writeCharacterPerkDetailsToHd(character)
+    writeZombieKillsToHd(character)
+    writeLifeTimeToHd()
+    writeCharacterNutrition()
+    writeTraitToHd(character)
+    -- writeRecipeToHd()
 end
 

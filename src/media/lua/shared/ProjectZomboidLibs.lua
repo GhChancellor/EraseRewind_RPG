@@ -8,15 +8,30 @@
 
 require("media.lua.shared.objects.CharacterTableX")
 
-local characterTraitsTable_ = { perk, level }
+---@param trait String
+local characterTraits_ = { trait }
+
+---@param perk PerkFactory
+---@param level int
+local characterPerkTable_ = { perk, level }
+
+---@param perk PerkFactory
+---@param level int
 local professionsTable_ = { perk, level }
 
----Add character Trait Table
+---Add character trait Table
+---@param trait String
+--- - PerkFactory.Perk : zombie.characters.skills.PerkFactory
+local function characterTraitTable(trait)
+    table.insert(characterTraits_, trait)
+end
+
+---Add character perk Table
 ---@param perk PerkFactory.Perk
 ---@param level int
 --- - PerkFactory.Perk : zombie.characters.skills.PerkFactory
-local function characterTraitTable(perk, level)
-    table.insert(characterTraitsTable_,{
+local function characterPerkTable(perk, level)
+    table.insert(characterPerkTable_,{
         perk = perk,
         level = level
     })
@@ -33,24 +48,36 @@ local function professionsTable(perk, level)
     })
 end
 
----Get Character Traits
----@return table perk, level
---- - PerkFactory.Perk : zombie.characters.skills.PerkFactory
-function getCharacterTraits(character)
-    characterTraitsTable_ = { perk, level }
+---Get Character Traits and Perk
+---@param character IsoGameCharacter
+---@return table perk, level @return table trait
+ --- - PerkFactory.Perk : zombie.characters.skills.PerkFactory
+function getCharacterTraitsPerk(character)
+    characterPerkTable_ = { perk, level }
+    characterTraits_ = { trait }
 
-    local traits_PZ = getTraits_PZ(character)
+    ---@type TraitCollection
+    local traits_PZ = getTraitsPerk_PZ(character)
 
     for i = 0, traits_PZ:size() - 1 do
-        local traitMap = TraitFactory.getTrait(traits_PZ:get(i) ):getXPBoostMap()
+
+        ---@type TraitFactory.Trait
+        local trait = TraitFactory.getTrait(traits_PZ:get(i) )
+
+        characterTraitTable(trait:getType())
+
+        ---@type TraitFactory.Trait
+        local traitMap = trait:getXPBoostMap()
+
+        ---@type KahluaTable
         local traitKahluaTable = transformIntoKahluaTable(traitMap)
 
         for perk, level in pairs(traitKahluaTable) do
-            characterTraitTable(perk, level)
+            characterPerkTable(perk, level)
         end
     end
 
-    return characterTraitsTable_
+    return characterPerkTable_, characterTraits_
 end
 
 ---Get Character Profession
@@ -59,8 +86,13 @@ end
 function getCharacterProfession(character)
     professionsTable_ = { perk, level }
 
+    ---@type SurvivorDesc
     local characterProfession_PZ = getCharacterProfession_PZ(character)
+
+    ---@type ProfessionFactory
     local professionMap = ProfessionFactory.getProfession(characterProfession_PZ):getXPBoostMap()
+
+    ---@type KahluaTable
     local professionKahluaTable = transformIntoKahluaTable(professionMap)
 
     for perk, level in pairs(professionKahluaTable) do
@@ -82,9 +114,16 @@ function getCharacterCurrentSkill(character, perk)
         return nil
     end
 
+    ---@type SurvivorDesc
     local profession = getCharacterProfession_PZ(character)
+
+    ---@type PerkFactory
     local perk_ = getPerk_PZ(perk)
+
+    ---@type int
     local level = getPerkLevel_PZ(character, perk_)
+
+    ---@type double
     local xp = getXpPerk_PZ(character, perk_)
 
     return characterTableX_getCurrentCharacter(profession, perk_, level:intValue(), xp)
@@ -101,11 +140,19 @@ function getCharacterAllSkills(character)
 
     characterTableX_DestroyTable()
 
+    ---@type SurvivorDesc
     local profession = getCharacterProfession_PZ(character)
 
+    ---@type PerkFactory.Perks
     for i = 0, Perks.getMaxIndex() - 1 do
+
+        ---@type PerkFactory.Perks
         local perk = getPerk_PZ(Perks.fromIndex(i))
+
+        ---@type int
         local level = getPerkLevel_PZ(character, perk)
+
+        ---@type double
         local xp = getXpPerk_PZ(character, perk)
         -- table
         characterTableX_addPerkDetails(profession, perk, level, xp )
@@ -126,7 +173,7 @@ function getPerk_PZ(perk)
 end
 
 --- Get Perk from name
----@param perk string
+---@param perk String
 ---@return PerkFactory.Perk perk
 --- - PerkFactory.Perk : zombie.characters.skills.PerkFactory
 function getPerkFromName_PZ(perk)
@@ -142,6 +189,7 @@ end
 ---@param flag3 boolean default true
 --- - IsoGameCharacter : zombie.characters.IsoGameCharacter
 --- - PerkFactory.Perk : zombie.characters.skills.PerkFactory
+--- - IsoGameCharacter.XP : zombie.characters.IsoGameCharacter.XP
 function addXP_PZ(character, perk, xp, flag1, flag2, flag3)
     if not character or not perk then
         return nil
@@ -174,12 +222,12 @@ function getPerkLevel_PZ(character, perk)
     return character:getPerkLevel(perk)
 end
 
---- Get all Traits
+--- Get all Traits and Perk
 ---@param character IsoGameCharacter
 ---@return TraitCollection
 --- - IsoGameCharacter : zombie.characters.IsoGameCharacter
 --- - TraitCollection : zombie.characters.traits.TraitCollection
-function getTraits_PZ(character)
+function getTraitsPerk_PZ(character)
     if not character then
         return nil
     end
@@ -323,12 +371,14 @@ function removePerkLevel(character, perk)
         return nil
     end
 
+    ---@type int
     local currentLevelPerk = getPerkLevel_PZ(character, perk)
 
     for _ = 0, currentLevelPerk  do
         character:LoseLevel(perk)
     end
 
+    ---@type float
     local xpPerk = getXpPerk_PZ(character, perk)
     xpPerk = -xpPerk
 
@@ -343,7 +393,7 @@ end
 
 ---Get Parent_PZ
 ---@param perk PerkFactory.Perk
----@return PerkFactory.Perk
+---@return String
 --- - PerkFactory.Perk : zombie.characters.skills.PerkFactory
 function getParent_PZ(perk)
     return perk:getParent():getName()
@@ -365,14 +415,14 @@ function getZombieKills_PZ(character)
     return character:getZombieKills()
 end
 
----Set Life Time
+---Set Life Time in hours
 ---@param lifeTime double
 --- - IsoPlayer : zombie.characters.IsoPlayer
 function setHoursSurvived_PZ(lifeTime)
     IsoPlayer.getInstance():setHoursSurvived(lifeTime)
 end
 
----Get Life Time
+---Get Life Time in hours
 ---@return double
 --- - IsoPlayer : zombie.characters.IsoPlayer
 function getHoursSurvived_PZ()
@@ -410,8 +460,14 @@ end
 ---Insert Single Value Into Mod Data
 ---@param EnumModData
 ---@param value
+--- - ModData : zombie.world.moddata.ModData
 function insertSingleValueIntoModData(modData, value)
+    if not value then
+        return nil
+    end
+
     ModData.remove(modData)
+
 
     local lines = {}
     table.insert(lines, value)
@@ -421,6 +477,7 @@ end
 
 ---Read Single Value Into Mod Data
 ---@param EnumModData
+--- - ModData : zombie.world.moddata.ModData
 function readSingleValueIntoModData(modData)
     local lines = {}
 
@@ -430,3 +487,60 @@ end
 
 --- --------------------------------------------------------------------------------------------------------------
 
+---Insert Multiple Value Into Mod Data
+---@param modData EnumModData
+---@param values table
+--- - ModData : zombie.world.moddata.ModData
+function insertMultipleValueIntoModData(modData, values)
+    if not values then
+        return nil
+    end
+
+    local lines = {}
+
+    for i, v in pairs(values) do
+        lines[i] = v
+        ModData.add(modData, lines)
+    end
+end
+
+---@param character IsoGameCharacter
+---@return ArrayList
+--- - IsoGameCharacter : zombie.characters.IsoGameCharacter
+function getKnownRecipes_PZ(character)
+    return character:getKnownRecipes()
+end
+
+---@param character IsoGameCharacter
+---@param nameRecipe String
+---@return boolean
+--- - IsoGameCharacter : zombie.characters.IsoGameCharacter
+function learnRecipe_PZ(character, nameRecipe)
+    return character:learnRecipe(nameRecipe)
+end
+
+---Set Trait
+---@param character IsoGameCharacter
+---@param trait String
+--- - IsoGameCharacter : zombie.characters.IsoGameCharacter
+--- - TraitCollection.TraitSlot : zombie.characters.traits.TraitCollection.TraitSlot
+function setTrait_PZ(character, trait)
+    character:getTraits():add(trait)
+end
+
+---Remove Trait
+---@param character IsoGameCharacter
+---@param trait String
+--- - IsoGameCharacter : zombie.characters.IsoGameCharacter
+--- - TraitCollection.TraitSlot : zombie.characters.traits.TraitCollection.TraitSlot
+function removeTrait_PZ(character, trait)
+    character:getTraits():remove(trait)
+end
+
+---Clear all Traits
+---@param character IsoGameCharacter
+--- - IsoGameCharacter : zombie.characters.IsoGameCharacter
+--- - TraitCollection.TraitSlot : zombie.characters.traits.TraitCollection.TraitSlot
+function removeAllTraits_PZ(character)
+    character:getTraits():clear()
+end
