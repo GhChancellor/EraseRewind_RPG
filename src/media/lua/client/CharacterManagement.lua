@@ -24,7 +24,6 @@ function readBook(character)
     createCharacterNutrition() -- ok
     createTrait(character) -- ok
     -- createRecipe(character)
-    -- removeMoData()
 end
 
 ---Write Book

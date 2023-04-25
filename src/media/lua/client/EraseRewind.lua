@@ -53,4 +53,4 @@ local function OnGameStart()
 end
 
 -- Events.OnGameStart.Add(OnGameStart)
-Events.OnCustomUIKeyPressed.Add(onCustomUIKeyPressed)
+-- Events.OnCustomUIKeyPressed.Add(onCustomUIKeyPressed)
