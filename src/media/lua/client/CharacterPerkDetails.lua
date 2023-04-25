@@ -57,7 +57,8 @@ end
 ---@param character IsoGameCharacter
 --- - IsoGameCharacter : zombie.characters.IsoGameCharacter
 function createCharacterPerkDetails(character)
-    if not isExist(EnumModData.CHARACTER_PROFESSION) then
+    if not modDataIsExist(EnumModData.CHARACTER_PROFESSION) or not
+            modDataIsExist(EnumModData.CHARACTER_PERK_DETAILS) then
         return nil
     end
 
@@ -69,7 +70,9 @@ function createCharacterPerkDetails(character)
     for _, v in pairs(characterSkills) do
         setPerkLevel(character, v.perk, v.xp)
     end
-    setCharacterProfession_PZ(character, EnumModData.CHARACTER_PROFESSION)
+
+    setCharacterProfession_PZ(character,
+        modDataReadSingleValue(EnumModData.CHARACTER_PROFESSION))
 end
 
 ---Write Character Perk Details To Hd
@@ -91,11 +94,13 @@ function writeCharacterPerkDetailsToHd(character)
         ModData.add(EnumModData.CHARACTER_PERK_DETAILS, lines)
     end
 
-
     lines = {}
-    table.insert(lines, EnumModData.CHARACTER_PROFESSION)
 
-    ModData.add(EnumModData.CHARACTER_PROFESSION, lines)
+    for i, v in pairs(characterAllSkills) do
+        modDataInsertSingleValue(EnumModData.CHARACTER_PROFESSION, v.profession)
+        break
+    end
+
 end
 
 

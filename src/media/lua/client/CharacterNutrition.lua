@@ -6,34 +6,34 @@
 
 ---Read Weight From Hd
 local function readWeightFromHd()
-    return readSingleValueIntoModData( EnumModData.CHARACTER_WEIGHT)
+    return modDataReadSingleValue( EnumModData.CHARACTER_WEIGHT)
 end
 
 ---Read Calories From Hd
 local function readCaloriesFromHd()
-    return readSingleValueIntoModData( EnumModData.CHARACTER_CALORIES)
+    return modDataReadSingleValue( EnumModData.CHARACTER_CALORIES)
 end
 
 ---Write Weight From Hd
 local function writeWeightFromHd()
-    insertSingleValueIntoModData(EnumModData.CHARACTER_WEIGHT, getWeight_PZ())
+    modDataInsertSingleValue(EnumModData.CHARACTER_WEIGHT, getWeight_PZ())
 end
 
 ---Write Calories From Hd
 local function writeCaloriesFromHd()
-    insertSingleValueIntoModData(EnumModData.CHARACTER_CALORIES, getCalories_PZ())
+    modDataInsertSingleValue(EnumModData.CHARACTER_CALORIES, getCalories_PZ())
 end
 
 ---Create Character Nutrition
 function createCharacterNutrition()
-    if not isExist(EnumModData.CHARACTER_WEIGHT) then
+    if not modDataIsExist(EnumModData.CHARACTER_WEIGHT) then
         return nil
     end
 
     local weight = readWeightFromHd()
     setWeight_PZ(weight)
 
-    if not isExist(EnumModData.CHARACTER_CALORIES) then
+    if not modDataIsExist(EnumModData.CHARACTER_CALORIES) then
         return nil
     end
 

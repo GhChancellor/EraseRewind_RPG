@@ -8,7 +8,7 @@ require("media.lua.client.EnumModData")
 ---Read Recipe From Hd
 ---@return int
 local function readRecipeFromHd(character)
-    return readSingleValueIntoModData(EnumModData.CHARACTER_RECIPE)
+    return modDataReadSingleValue(EnumModData.CHARACTER_RECIPE)
 end
 
 ---Delete Trait
@@ -45,7 +45,7 @@ end
 function writeRecipeToHd(character)
     local _, recipe = {}
     -- recipe TODO cosa mettere?
-    insertMultipleValueIntoModData(EnumModData.CHARACTER_RECIPE, recipe)
+    modDataInsertMultipleValue(EnumModData.CHARACTER_RECIPE, recipe)
 
     --local lines = {}
     --

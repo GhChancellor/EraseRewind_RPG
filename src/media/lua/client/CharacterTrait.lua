@@ -18,7 +18,7 @@ end
 ---@param character IsoGameCharacter
 --- - zombie.characters.IsoGameCharacter
 function createTrait(character)
-    if not isExist(EnumModData.CHARACTER_TRAIT) then
+    if not modDataIsExist(EnumModData.CHARACTER_TRAIT) then
         return nil
     end
 
@@ -46,5 +46,5 @@ function writeTraitToHd(character)
     local trait = {}
     _, trait = getCharacterTraitsPerk(character)
 
-    insertMultipleValueIntoModData(EnumModData.CHARACTER_TRAIT, trait)
+    modDataInsertMultipleValue(EnumModData.CHARACTER_TRAIT, trait)
 end

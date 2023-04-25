@@ -461,13 +461,12 @@ end
 ---@param EnumModData
 ---@param value
 --- - ModData : zombie.world.moddata.ModData
-function insertSingleValueIntoModData(modData, value)
+function modDataInsertSingleValue(modData, value)
     if not value then
         return nil
     end
 
     ModData.remove(modData)
-
 
     local lines = {}
     table.insert(lines, value)
@@ -478,7 +477,7 @@ end
 ---Read Single Value Into Mod Data
 ---@param EnumModData
 --- - ModData : zombie.world.moddata.ModData
-function readSingleValueIntoModData(modData)
+function modDataReadSingleValue(modData)
     local lines = {}
 
     lines = ModData.get(modData)
@@ -491,7 +490,7 @@ end
 ---@param modData EnumModData
 ---@param values table
 --- - ModData : zombie.world.moddata.ModData
-function insertMultipleValueIntoModData(modData, values)
+function modDataInsertMultipleValue(modData, values)
     if not values then
         return nil
     end
@@ -504,7 +503,10 @@ function insertMultipleValueIntoModData(modData, values)
     end
 end
 
-function isExist(modData)
+---Is Exist
+---@param modData EnumModData
+--- - ModData : zombie.world.moddata.ModDa
+function modDataIsExist(modData)
     return ModData.exists(modData)
 end
 
