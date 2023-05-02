@@ -20,12 +20,11 @@ function ISReadABook:perform()
 	local journal = self.item
 
     if journal:getType() ~= eraseRewindJournal then
-        EROVERWRITE_ISReadABook_start(self)
+        EROVERWRITE_ISReadABook_perform(self)
     else
         readBook(getPlayer())
     end
     -- qua load moddata
-
 
     ISBaseTimedAction.perform(self)
 end
